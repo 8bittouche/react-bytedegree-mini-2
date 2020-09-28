@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createGlobalStyle } from 'styled-components';
+import AccountBookTemplate from './components/AccountBookTemplate';
+import AccountBookHead from './components/AccountBookHead';
+import AccountBookCategory from './components/AccountBookCategory';
+import AccountBookList from './components/AccountBookList';
+import AccountBookCreate from './components/AccountBookCreate';
+import { AccountBookProvider } from './AccountBookContext';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background: #e9ecef;
+  }
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AccountBookProvider>
+        <GlobalStyle />
+        <AccountBookTemplate>
+          <AccountBookHead></AccountBookHead>
+          <AccountBookCategory></AccountBookCategory>
+          <AccountBookList></AccountBookList>
+          <AccountBookCreate></AccountBookCreate>
+        </AccountBookTemplate>
+      </AccountBookProvider>
+    </>
   );
 }
 
