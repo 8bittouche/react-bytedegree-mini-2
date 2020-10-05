@@ -1,6 +1,9 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { useAccountBookState } from '../AccountBookContext';
+import styled from 'styled-components';
+import AccountBookCategory from './AccountBookCategory';
+import AccountBookCreate from './AccountBookCreate';
+import AccountBookHead from './AccountBookHead';
+import AccountBookList from './AccountBookList';
 
 const AccountBookTemplateBlock = styled.div`
   width: 512px;
@@ -20,34 +23,17 @@ const AccountBookTemplateBlock = styled.div`
   flex-direction: column;
 `;
 
-const DialogWrapper = styled.div`
-  ${props =>
-    props.dialogOn
-      ? css`
-          display: block;
-        `
-      : css`
-          display: none;
-        `}
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  background: black;
-  opacity: 0.8;
-  width: 100%;
-  height: 100%;
-`;
-
-function AccountBookTemplate({ children }) {
-  const { dialogOn } = useAccountBookState();
+function AccountBookTemplate() {
   return (
     <>
-      <AccountBookTemplateBlock>{children}</AccountBookTemplateBlock>
-      <DialogWrapper dialogOn={dialogOn} />
+      <AccountBookTemplateBlock>
+        <AccountBookHead />
+        <AccountBookCategory />
+        <AccountBookList />
+        <AccountBookCreate />
+      </AccountBookTemplateBlock>
     </>
   );
 }
 
-export default React.memo(AccountBookTemplate);
+export default AccountBookTemplate;

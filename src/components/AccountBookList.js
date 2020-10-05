@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useAccountBookState } from '../AccountBookContext';
+import { useAccountBookState } from '../contexts/AccountBookContext';
 import AccountBookItem from './AccountBookItem';
 
 const AccountBookListBlock = styled.div`
@@ -13,9 +13,9 @@ function AccountBookList() {
   const { currentCategory, records } = useAccountBookState();
 
   const currentRecords =
-    currentCategory === '전체'
+    currentCategory === 0
       ? records
-      : records.filter(record => record.category.name === currentCategory);
+      : records.filter(record => record.categoryId === currentCategory);
 
   return (
     <AccountBookListBlock>

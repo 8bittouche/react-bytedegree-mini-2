@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   useAccountBookDispatch,
   useAccountBookState,
-} from '../AccountBookContext';
+} from '../contexts/AccountBookContext';
 
 const AccountBookCategoryBlock = styled.div`
   padding: 24px 0;
@@ -32,15 +32,18 @@ function AccountBookCategory() {
   const dispatch = useAccountBookDispatch();
   const { categories } = useAccountBookState();
 
-  const onChange = e =>
-    dispatch({ type: 'CHANGE_CATEGORY', categoryName: e.target.value });
+  const onChange = e => {
+    const categoryId = categories.filter(
+      category => category.name === e.target.value
+    )[0].id;
+    dispatch({ type: 'CHANGE_CATEGORY', categoryId });
+  };
 
   return (
     <AccountBookCategoryBlock>
       <div className="category">
         카테고리별로 보기:
         <select onChange={onChange}>
-          <option>전체</option>
           {categories.map(
             category =>
               category.count > 0 && (

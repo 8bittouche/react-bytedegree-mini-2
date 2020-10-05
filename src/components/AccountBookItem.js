@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdEdit, MdDelete } from 'react-icons/md';
-import { useAccountBookDispatch } from '../AccountBookContext';
+import {
+  useAccountBookDispatch,
+  useAccountBookState,
+} from '../contexts/AccountBookContext';
 import AccountBookEdit from './AccountBookEdit';
+import AccountBookRemove from './AccountBookRemove';
 
 const AccountBookItemBlock = styled.div`
   display: flex;
@@ -57,57 +61,16 @@ const Remove = styled.div`
   cursor: pointer;
 `;
 
-const RemoveForm = styled.form`
-  position: absolute;
-  left: 80px;
-  top: 10px;
-  width: 350px;
-  height: 130px;
-  background: white;
-  border-radius: 10px;
-  z-index: 1000;
-  opacity: 1;
-  padding: 20px;
-
-  div {
-    position: relative;
-    margin-top: 36px;
-    margin-left: 210px;
-  }
-  button {
-    width: 60px;
-    height: 40px;
-    border-radius: 4px;
-    color: white;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    font-weight: bold;
-    margin-left: 10px;
-  }
-
-  .submit {
-    background: #f06595;
-  }
-
-  .cancel {
-    background: #495057;
-  }
-`;
-
 function AccountBookItem({ record }) {
   const [edit, setEdit] = useState(false);
-  const [remove, setRemove] = useState(false);
   const dispatch = useAccountBookDispatch();
-  const { id, category, content, expense } = record;
+  const { categories, dialogOn } = useAccountBookState();
+  const { id, categoryId, content, expense } = record;
+
+  const category = categories.filter(category => category.id === categoryId)[0];
 
   const onEdit = () => {
     setEdit(!edit);
-  };
-
-  const onRemove = () => {
-    dispatch({ type: 'TOGGLE_DIALOG' });
-    setRemove(!remove);
   };
 
   return (
@@ -121,38 +84,21 @@ function AccountBookItem({ record }) {
             <MdEdit onClick={onEdit} />
           </Edit>
           <Remove>
-            <MdDelete onClick={onRemove} />
+            <MdDelete onClick={() => dispatch({ type: 'TOGGLE_DIALOG' })} />
           </Remove>
         </div>
       </AccountBookItemBlock>
       {edit && (
         <AccountBookEdit
           id={id}
-          category={category}
+          categoryId={categoryId}
+          categoryName={category.name}
           content={content}
           expense={expense}
           onEdit={onEdit}
         />
       )}
-      {remove && (
-        <RemoveForm>
-          <h2>정말 삭제하시겠습니까?</h2>
-          <div>
-            <button
-              type="button"
-              className="submit"
-              onClick={() => {
-                dispatch({ type: 'REMOVE_RECORD', removeId: id, category });
-              }}
-            >
-              확인
-            </button>
-            <button type="button" className="cancel" onClick={onRemove}>
-              취소
-            </button>
-          </div>
-        </RemoveForm>
-      )}
+      {dialogOn && <AccountBookRemove id={id} categoryId={categoryId} />}
     </>
   );
 }

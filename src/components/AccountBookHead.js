@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { useAccountBookState } from '../AccountBookContext';
+import { useAccountBookState } from '../contexts/AccountBookContext';
 
 const AccountBookHeadBlock = styled.div`
   padding-top: 32px;
@@ -38,7 +38,10 @@ const today = new Date().toLocaleDateString('ko-KR', {
 function AccountBookHead() {
   const { records } = useAccountBookState();
 
-  const totalExpense = records.reduce((a, c) => a + c.expense, 0);
+  const totalExpense = useMemo(
+    () => records.reduce((a, c) => a + c.expense, 0),
+    [records]
+  );
 
   return (
     <AccountBookHeadBlock>
@@ -52,4 +55,4 @@ function AccountBookHead() {
   );
 }
 
-export default React.memo(AccountBookHead);
+export default AccountBookHead;

@@ -4,8 +4,8 @@ import {
   useAccountBookDispatch,
   useAccountBookState,
   useAccountBookNextCategoryId,
-} from '../AccountBookContext';
-import useInputs from './useInputs';
+} from '../contexts/AccountBookContext';
+import useInputs from '../hooks/useInputs';
 
 const EditForm = styled.form`
   background: #f1f3f5;
@@ -57,7 +57,14 @@ const EditButtonBlock = styled.div`
   }
 `;
 
-function AccountBookEdit({ id, category, content, expense, onEdit }) {
+function AccountBookEdit({
+  id,
+  categoryId,
+  categoryName,
+  content,
+  expense,
+  onEdit,
+}) {
   const [inputs, setInputs, onChange, validateInputs] = useInputs();
 
   const { inputCategoryName, inputContent, inputExpense } = inputs;
@@ -76,7 +83,7 @@ function AccountBookEdit({ id, category, content, expense, onEdit }) {
     if (!validateInputs()) return;
 
     // 카테고리가 변경되지 않음
-    if (category.name === inputCategoryName) {
+    if (categoryName === inputCategoryName) {
       dispatch({
         type: 'EDIT_RECORD',
         editId: id,
@@ -96,8 +103,8 @@ function AccountBookEdit({ id, category, content, expense, onEdit }) {
           editId: id,
           editContent: inputContent,
           editExpense: parseInt(inputExpense, 10),
-          beforeCategory: category,
-          afterCategory: existCategory,
+          beforeCategoryId: categoryId,
+          afterCategoryId: existCategory.id,
         });
       } else {
         // 변경된 카테고리가 존재하지 않음
@@ -106,7 +113,7 @@ function AccountBookEdit({ id, category, content, expense, onEdit }) {
           editId: id,
           editContent: inputContent,
           editExpense: parseInt(inputExpense, 10),
-          beforeCategory: category,
+          beforeCategoryId: categoryId,
           newCategory: {
             id: nextCategoryId.current,
             name: inputCategoryName,
@@ -134,7 +141,7 @@ function AccountBookEdit({ id, category, content, expense, onEdit }) {
           name="inputCategoryName"
           value={inputCategoryName}
           onChange={onChange}
-          placeholder={category.name}
+          placeholder={categoryName}
         />
         <EditInput
           name="inputContent"
@@ -159,4 +166,4 @@ function AccountBookEdit({ id, category, content, expense, onEdit }) {
   );
 }
 
-export default React.memo(AccountBookEdit);
+export default AccountBookEdit;

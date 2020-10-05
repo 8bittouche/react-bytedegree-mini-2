@@ -6,8 +6,8 @@ import {
   useAccountBookNextCategoryId,
   useAccountBookNextItemId,
   useAccountBookState,
-} from '../AccountBookContext';
-import useInputs from './useInputs';
+} from '../contexts/AccountBookContext';
+import useInputs from '../hooks/useInputs';
 
 const CreateButton = styled.button`
   background: #0c8599;
@@ -137,11 +137,7 @@ function AccountBookCreate() {
         type: 'ADD_RECORD',
         record: {
           id: nextItemId.current,
-          category: {
-            id: existCategory.id,
-            name: inputCategoryName,
-            color: existCategory.color,
-          },
+          categoryId: existCategory.id,
           content: inputContent,
           expense: parseInt(inputExpense, 10),
         },
@@ -153,11 +149,7 @@ function AccountBookCreate() {
         type: 'ADD_RECORD_CATEGORY',
         record: {
           id: nextItemId.current,
-          category: {
-            id: nextCategoryId.current,
-            name: inputCategoryName,
-            color: newColor,
-          },
+          categoryId: nextCategoryId.current,
           content: inputContent,
           expense: parseInt(inputExpense, 10),
         },

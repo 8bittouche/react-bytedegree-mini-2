@@ -1,11 +1,7 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import AccountBookTemplate from './components/AccountBookTemplate';
-import AccountBookHead from './components/AccountBookHead';
-import AccountBookCategory from './components/AccountBookCategory';
-import AccountBookList from './components/AccountBookList';
-import AccountBookCreate from './components/AccountBookCreate';
-import { AccountBookProvider } from './AccountBookContext';
+import { AccountBookProvider } from './contexts/AccountBookContext';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,12 +14,7 @@ function App() {
     <>
       <AccountBookProvider>
         <GlobalStyle />
-        <AccountBookTemplate>
-          <AccountBookHead></AccountBookHead>
-          <AccountBookCategory></AccountBookCategory>
-          <AccountBookList></AccountBookList>
-          <AccountBookCreate></AccountBookCreate>
-        </AccountBookTemplate>
+        <AccountBookTemplate />
       </AccountBookProvider>
     </>
   );
