@@ -10,12 +10,12 @@ const AccountBookListBlock = styled.div`
 `;
 
 function AccountBookList() {
-  const { currentCategory, records } = useAccountBookState();
+  const { currentCategoryId, records } = useAccountBookState();
 
   const currentRecords =
-    currentCategory === 0
+    currentCategoryId === 0
       ? records
-      : records.filter(record => record.categoryId === currentCategory);
+      : records.filter(record => record.categoryId === currentCategoryId);
 
   return (
     <AccountBookListBlock>

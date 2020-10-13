@@ -56,7 +56,7 @@ const DialogWrapper = styled.div`
   height: 100%;
 `;
 
-function AccountBookRemove({ id, categoryId }) {
+function AccountBookRemove({ id }) {
   const dispatch = useAccountBookDispatch();
   const { dialogOn } = useAccountBookState();
 
@@ -68,9 +68,7 @@ function AccountBookRemove({ id, categoryId }) {
           <button
             type="button"
             className="submit"
-            onClick={() =>
-              dispatch({ type: 'REMOVE_RECORD', removeId: id, categoryId })
-            }
+            onClick={() => dispatch({ type: 'REMOVE_RECORD', removeId: id })}
           >
             확인
           </button>

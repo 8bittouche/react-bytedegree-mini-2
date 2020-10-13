@@ -33,10 +33,8 @@ function AccountBookCategory() {
   const { categories } = useAccountBookState();
 
   const onChange = e => {
-    const categoryId = categories.filter(
-      category => category.name === e.target.value
-    )[0].id;
-    dispatch({ type: 'CHANGE_CATEGORY', categoryId });
+    console.log(e.target.value);
+    dispatch({ type: 'CHANGE_CATEGORY', categoryId: Number(e.target.value) });
   };
 
   return (
@@ -47,7 +45,9 @@ function AccountBookCategory() {
           {categories.map(
             category =>
               category.count > 0 && (
-                <option key={category.id}>{category.name}</option>
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
               )
           )}
         </select>

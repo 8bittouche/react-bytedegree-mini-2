@@ -2,7 +2,7 @@ import React, { useReducer, createContext, useRef } from 'react';
 import { useContext } from 'react';
 
 const initialState = {
-  currentCategory: 0,
+  currentCategoryId: 0,
   dialogOn: false,
 
   records: [
@@ -89,7 +89,7 @@ function accountBookReducer(state, action) {
     case 'CHANGE_CATEGORY':
       return {
         ...state,
-        currentCategory: action.categoryId,
+        currentCategoryId: action.categoryId,
       };
     case 'ADD_RECORD':
       return {
@@ -116,7 +116,8 @@ function accountBookReducer(state, action) {
         records: records.filter(record => record.id !== action.removeId),
         categories: categories
           .map(category =>
-            category.id === action.categoryId
+            category.id ===
+            records.find(record => record.id === action.removeId).categoryId
               ? {
                   ...category,
                   count: category.count - 1,
